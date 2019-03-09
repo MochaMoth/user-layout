@@ -1,11 +1,16 @@
 {
-  "name": "electrolyte",
-  "version": "0.0.1-SNAPSHOT",
+  "name": "user-layout",
+  "version": "1.0.1",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "test": "node main.test.js",
+    "prepublish": "npm test"
   },
   "author": "Fedora Dev",
-  "license": "ISC"
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^4.0.8"
+  }
 }
