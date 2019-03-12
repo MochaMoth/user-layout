@@ -28,7 +28,7 @@ class Layout
         return (JSON.stringify(layoutObject));
     }
 
-    GenerateHtml(rootPath = "")
+    GenerateHtml(rootPath)
     {
         //Magic here!
         //returns each window/tabbed window in an overall layout with files defined in 'Modules' loaded
@@ -49,14 +49,14 @@ class SplitLayout extends Layout
         this.splitDistance = splitDistance;
     }
 
-    GenerateHtml(rootPath = "")
+    GenerateHtml(rootPath)
     {
         let split = this.splitType === SplitType.HORIZONTAL;
         let calcedSize = `calc(${this.splitDistance}% - (${Config.HandleWidth} / 2))`;
         let inverseCalcedSize = `calc((100 - ${this.splitDistance}%) - (${Config.HandleWidth} / 2))`;
         let size = split ? `height: ${calcedSize}; width: 100%` : `width: ${calcedSize}; height: 100%`;
         let inverseSize = split ? `height: ${inverseCalcedSize}; width: 100%` : `width: ${inverseCalcedSize}; height: 100%`;
-        let handleWidth = split ? `height: ${Config.HandleWidth}` : `width: ${Config.HandleWidth}`;
+        let handleWidth = split ? `height: ${Config.HandleWidth}; width: 100%` : `width: ${Config.HandleWidth}; height: 100%;`;
 
         let split1 = `<div class="panel" style="${size}; ${split ? `` : `float: left`}">${this.layout.GenerateHtml(rootPath)}</div>`;
         let handle = `<div class="handle" style="${handleWidth}; ${split ? `` : `float: left`}"></div>`;
@@ -74,7 +74,7 @@ class Window extends Layout
         this.contents = contents;
     }
 
-    GenerateHtml(rootPath = "")
+    GenerateHtml(rootPath)
     {
         const location = path.join(rootPath, this.contents);
         return fs.readFileSync(location, { encoding: "utf-8" });
@@ -90,7 +90,7 @@ class TabbedWindow extends Window
         this.selectedTab = selectedTab;
     }
 
-    GenerateHtml(rootPath = "")
+    GenerateHtml(rootPath)
     {
         const location = path.join(rootPath, this.contents);
         return fs.readFileSync(location, { encoding: "utf-8" });
