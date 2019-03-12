@@ -1,7 +1,7 @@
 const Layout = require('./layout');
 const Config = require("../Config.json");
-const enums = require('../enums.json')
-const { SplitType } = enums
+const Constants = require('../constants.js');
+const { SplitType } = Constants;
 
 module.exports = class SplitLayout extends Layout
 {

@@ -1,4 +1,4 @@
-const { Layout, SplitLayout, Window, enums, TabbedWindow } = require('./classes');
-const { SplitType } = enums
+const { Layout, SplitLayout, Window, Constants, TabbedWindow } = require('./classes');
+const { SplitType } = Constants;
 
 module.exports = { Layout, SplitLayout, Window, TabbedWindow, SplitType };
