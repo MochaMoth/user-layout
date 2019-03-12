@@ -7,9 +7,7 @@ const SplitType = {
     VERTICAL: "Vertical"
 }
 
-const Config = {
-    HandleWidth: "5px"
-}
+const Config = require("./Config.json");
 
 class Layout
 {
