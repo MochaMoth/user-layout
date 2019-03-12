@@ -8,7 +8,7 @@ const SplitType = {
 }
 
 const Config = {
-    HandleWidth: "10px"
+    HandleWidth: "5px"
 }
 
 class Layout
