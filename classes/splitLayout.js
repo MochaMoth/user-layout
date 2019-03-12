@@ -27,7 +27,7 @@ module.exports = class SplitLayout extends Layout
         let handleStyles = `float: left;`;
 
         return (`
-            <div class="split ${this.splitType}">
+            <div class="window split ${this.splitType}">
                 <div class="panel" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
                 <div class="handle" style="${handleStyles}"></div>
                 <div class="panel" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
