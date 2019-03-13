@@ -5,7 +5,8 @@ const fs = require("fs");
 module.exports = class Window extends Layout
 {
     /**
-     * Relative path to HTML displayed in this window.
+     * Displays an html partial document within the Window.
+     * Takes the relative path to the html document.
      * @param {String} contents 
      */
     constructor(contents)

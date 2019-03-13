@@ -6,7 +6,8 @@ const { SplitType } = Constants;
 module.exports = class SplitLayout extends Layout
 {
     /**
-     * 
+     * Extends Layout. Creates a split with layoutA on the top or left side, and layoutB on the bottom or right side.
+     * splitDistance is a percentage between 0 and 100.
      * @param {SplitType} splitType 
      * @param {Number} splitDistance 
      * @param {Layout} layoutA 

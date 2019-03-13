@@ -6,7 +6,7 @@ const fs = require("fs");
 module.exports = class TabbedWindow extends Window
 {
     /**
-     * 
+     * Creates a Window with tabs at the top for cycling the contents.
      * @param {Array<Tab>} tabs 
      */
     constructor(tabs)
