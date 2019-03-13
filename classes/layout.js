@@ -1,5 +1,9 @@
 module.exports = class Layout
 {
+    /**
+     * Takes in a class that extends Layout in a tree structure
+     * @param {Layout} layout 
+     */
     constructor(layout)
     {
         this.layout = layout;

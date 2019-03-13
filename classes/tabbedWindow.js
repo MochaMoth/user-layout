@@ -5,11 +5,14 @@ const fs = require("fs");
 
 module.exports = class TabbedWindow extends Window
 {
-    constructor(tabs, selectedTab)
+    /**
+     * Creates a Window with tabs at the top for cycling the contents.
+     * @param {Array<Tab>} tabs 
+     */
+    constructor(tabs)
     {
         super();
         this.tabs = tabs;
-        this.selectedTab = selectedTab;
     }
 
     GenerateHtml(rootPath)
@@ -27,13 +30,7 @@ module.exports = class TabbedWindow extends Window
         return (`
             <div class="tab-navigation">${tabs}</div>
             <div class="tab-modules">${modules}</div>
-            <div class="window hidden-content">
-                <div class="anchor-top"></div>
-                <div class="anchor-bottom"></div>
-                <div class="anchor-left"></div>
-                <div class="anchor-right"></div>
-                <div class="anchor-center"></div>
-            </div>
+            ${this.GetAnchors()}
         `);
     }
 }
