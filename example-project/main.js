@@ -21,7 +21,7 @@ app.on("ready", () =>
             new Window("Test File 3.html")
         )
     );
-    layout.updateLayoutStyles(styles)
+    layout.updateStyles(styles)
     let layoutHtml = layout.GenerateHtml(rootPath);
 
     mainWindow.loadURL(`data:text/html;charset=utf-8,${layoutHtml}`);

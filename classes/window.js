@@ -29,6 +29,7 @@ module.exports = class Window extends Layout
 
     GenerateHtml(rootPath)
     {
+        console.log(this.styles);
         let module = fs.readFileSync(path.join(rootPath, this.contents), { encoding: "utf-8" });
 
         return (`

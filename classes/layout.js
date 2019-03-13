@@ -4,10 +4,11 @@ module.exports = class Layout
      * Takes in a class that extends Layout in a tree structure
      * @param {Layout} layout 
      */
-    constructor(layout, styles)
+    constructor(layout)
     {
+        this.name = 'layout'
         this.layout = layout;
-        this.styles = styles;
+        this.styles;
     }
 
     LoadLayoutFromJson(layoutData)
@@ -15,16 +16,16 @@ module.exports = class Layout
         this.layout = JSON.parse(layoutData);
     }
 
-    updateLayoutStyles(styleData) 
+    updateStyles(styleData) 
     {
-        const { layout } = styleData 
-        let styles = [];
-        for (let style in layout) {
-            if (layout.hasOwnProperty(style)) {
-                styles.push(`${style}:${layout[style]};`);
+        const styles = styleData[this.name] 
+        let stylesArr = [];
+        for (let style in styles) {
+            if (styles.hasOwnProperty(style)) {
+                stylesArr.push(`${style}:${styles[style]};`);
             }
         };
-        let result = styles.join(' ');
+        let result = stylesArr.join(' ');
         console.log(result);
         this.styles = result;
     }
