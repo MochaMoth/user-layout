@@ -17,11 +17,11 @@ module.exports = class Layout
 
     updateLayoutStyles(styleData) 
     {
-        let layoutStyles = styleData.layout
+        const { layout } = styleData 
         let styles = [];
-        for (let style in layoutStyles) {
-            if (layoutStyles.hasOwnProperty(style)) {
-                styles.push(`${style}:${layoutStyles[style]};`);
+        for (let style in layout) {
+            if (layout.hasOwnProperty(style)) {
+                styles.push(`${style}:${layout[style]};`);
             }
         };
         let result = styles.join(' ');
