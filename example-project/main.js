@@ -2,7 +2,7 @@ const electron = require("electron");
 const { app, BrowserWindow } = electron;
 const userlayout = require("user-layout");
 const { rootPath } = require("electron-root-path");
-const { Layout, SplitLayout, Window, TabbedWindow, SplitType } = userlayout;
+const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab } = userlayout;
 
 app.on("ready", () =>
 {
@@ -12,8 +12,13 @@ app.on("ready", () =>
         new SplitLayout(SplitType.HORIZONTAL, 25,
             new SplitLayout(SplitType.VERTICAL, 25,
                 new Window("Test File 1.html"),
-                new Window("Test File 2.html")),
-            new Window("Test File 3.html"))
+                new TabbedWindow([
+                    new Tab("File 2", "Test File 2.html", "visible"),
+                    new Tab("File 4", "Test File 4.html")
+                ]),
+            ),
+            new Window("Test File 3.html")
+        )
     );
 
     let layoutHtml = layout.GenerateHtml(rootPath);

@@ -5,6 +5,13 @@ const { SplitType } = Constants;
 
 module.exports = class SplitLayout extends Layout
 {
+    /**
+     * 
+     * @param {SplitType} splitType 
+     * @param {Number} splitDistance 
+     * @param {Layout} layoutA 
+     * @param {Layout} layoutB 
+     */
     constructor(splitType, splitDistance, layoutA, layoutB)
     {
         super();
@@ -20,11 +27,11 @@ module.exports = class SplitLayout extends Layout
         let mainDimension = isHorizontalSplit ? "height" : "width";
         let subDimension = isHorizontalSplit ? "width" : "height";
         let mainCalc = `calc(${this.splitDistance}% - (${Config.HandleWidth} / 2))`;
-        let subCalc = `calc(${this.splitDistance}% - (${Config.HandleWidth} / 2))`;
+        let subCalc = `calc(${100 - this.splitDistance}% - (${Config.HandleWidth} / 2))`;
 
         let panelAStyles = `${mainDimension}: ${mainCalc}; ${subDimension}: 100%; float: left;`;
         let panelBStyles = `${mainDimension}: ${subCalc};  ${subDimension}: 100%; float: left;`;
-        let handleStyles = `float: left;`;
+        let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
 
         return (`
             <div class="window split ${this.splitType}">
