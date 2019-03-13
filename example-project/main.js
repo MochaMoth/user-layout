@@ -3,6 +3,7 @@ const { app, BrowserWindow } = electron;
 const userlayout = require("user-layout");
 const { rootPath } = require("electron-root-path");
 const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab } = userlayout;
+const styles = require('./styles.json')
 
 app.on("ready", () =>
 {
@@ -20,7 +21,7 @@ app.on("ready", () =>
             new Window("Test File 3.html")
         )
     );
-
+    layout.updateLayoutStyles(styles)
     let layoutHtml = layout.GenerateHtml(rootPath);
 
     mainWindow.loadURL(`data:text/html;charset=utf-8,${layoutHtml}`);

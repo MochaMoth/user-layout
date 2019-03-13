@@ -4,14 +4,29 @@ module.exports = class Layout
      * Takes in a class that extends Layout in a tree structure
      * @param {Layout} layout 
      */
-    constructor(layout)
+    constructor(layout, styles)
     {
         this.layout = layout;
+        this.styles = styles;
     }
 
     LoadLayoutFromJson(layoutData)
     {
         this.layout = JSON.parse(layoutData);
+    }
+
+    updateLayoutStyles(styleData) 
+    {
+        let layoutStyles = styleData.layout
+        let styles = [];
+        for (let style in layoutStyles) {
+            if (layoutStyles.hasOwnProperty(style)) {
+                styles.push(`${style}:${layoutStyles[style]};`);
+            }
+        };
+        let result = styles.join(' ');
+        console.log(result);
+        this.styles = result;
     }
 
     SaveLayoutToJson(layoutObject)
@@ -26,7 +41,7 @@ module.exports = class Layout
         //elements should have events bound automagically
         //
         return (`
-            <div class="user-layout" style="width:100%; height:100%;">
+            <div class="user-layout" style=${this.styles}>
                 ${this.layout.GenerateHtml(rootPath)}
             </div>
             <script>
