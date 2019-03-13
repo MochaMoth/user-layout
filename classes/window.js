@@ -12,7 +12,17 @@ module.exports = class Window extends Layout
 
     GenerateHtml(rootPath)
     {
-        const location = path.join(rootPath, this.contents);
-        return fs.readFileSync(location, { encoding: "utf-8" });
+        let module = fs.readFileSync(path.join(rootPath, this.contents), { encoding: "utf-8" });
+
+        return (`
+            <div class="window visual-content">${module}</div>
+            <div class="window hidden-content">
+                <div class="anchor-top"></div>
+                <div class="anchor-bottom"></div>
+                <div class="anchor-left"></div>
+                <div class="anchor-right"></div>
+                <div class="anchor-center"></div>
+            </div>
+        `);
     }
 }
