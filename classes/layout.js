@@ -41,7 +41,7 @@ module.exports = class Layout
         //elements should have events bound automagically
         //
         return (`
-            <div class="user-layout" style=${this.styles}>
+            <div class="user-layout" style="${this.styles}">
                 ${this.layout.GenerateHtml(rootPath)}
             </div>
             <script>
