@@ -12,9 +12,9 @@ app.on("ready", () =>
     layout = new Layout();
     layout.updateStyles(styles)
     //test for full split layout
-    // layout.setLayout(SplitType.VERTICAL, 25, new Window("Test File 3.html"), new Window("Test File 3.html"))
+    // layout.setLayout(SplitType.VERTICAL, 25, "Test File 3.html", "Test File 1.html")
     // test for full page layout
-    layout.setLayout(new Window("Test File 3.html"));
+    layout.setLayout("Test File 3.html");
 
     let layoutHtml = layout.GenerateHtml(rootPath);
 

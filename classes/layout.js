@@ -15,14 +15,15 @@ module.exports = class Layout
 
     setLayout(splitType, splitDistance, layoutA, layoutB)
     {
-        // checks if only one arg then sets layout to that one arg. Not perfect still working
+        // checks if only one arg then sets layout to that one arg. Not perfect still working on it
+        const SplitLayout = require('./splitLayout');
+        const Window = require('./window');
         if (!splitDistance)
         {
-            this.layout = splitType
+            this.layout = new Window(splitType)
         } else
         {
-            const SplitLayout = require('./splitLayout');
-            this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB)
+            this.layout = new SplitLayout(splitType, splitDistance, new Window(layoutA), new Window(layoutB))
         }
 
     }
