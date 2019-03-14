@@ -13,24 +13,24 @@ module.exports = class TabbedWindow extends Window
     {
         super();
         this.tabs = tabs;
-    }
-
-    GenerateHtml(rootPath)
-    {
-        let tabs = "";
-        let modules = "";
-
-        this.tabs.forEach(element =>
+        this.GenerateHtml = function (rootPath)
         {
-            let module = fs.readFileSync(path.join(rootPath, element.file), { encoding: "utf-8" });
-            tabs += `<div class="tab ${element.visible}">${element.name}</div>`;
-            modules += `<div class="window visual-content ${element.visible}">${module}</div>`;
-        });
+            let tabs = "";
+            let modules = "";
 
-        return (`
-            <div class="tab-navigation">${tabs}</div>
-            <div class="tab-modules">${modules}</div>
-            ${this.GetAnchors()}
-        `);
+            this.tabs.forEach(element =>
+            {
+                let module = fs.readFileSync(path.join(rootPath, element.file), { encoding: "utf-8" });
+                tabs += `<div class="tab ${element.visible}">${element.name}</div>`;
+                modules += `<div class="window visual-content ${element.visible}">${module}</div>`;
+            });
+
+            return (`
+                <div class="tab-navigation">${tabs}</div>
+                <div class="tab-modules">${modules}</div>
+                ${this.GetAnchors()}
+            `);
+        }
     }
+
 }

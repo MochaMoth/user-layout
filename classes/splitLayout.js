@@ -23,66 +23,65 @@ module.exports = class SplitLayout extends Layout
         this.layoutB = layoutB;
         this.splitDistance = splitDistance;
         this.id = "id" + Math.round(Math.random() * 10000000);
-    }
-
-    GenerateHtml(rootPath)
-    {
-        let isHorizontalSplit = this.splitType === SplitType.HORIZONTAL;
-        let mainDimension = isHorizontalSplit ? "height" : "width";
-        let subDimension = isHorizontalSplit ? "width" : "height";
-        let mainCalc = `calc(${this.splitDistance}% - (${Config.HandleWidth} / 2))`;
-        let subCalc = `calc(${100 - this.splitDistance}% - (${Config.HandleWidth} / 2))`;
-
-        let panelAStyles = `${mainDimension}: ${mainCalc}; ${subDimension}: 100%; float: left;`;
-        let panelBStyles = `${mainDimension}: ${subCalc};  ${subDimension}: 100%; float: left;`;
-        let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
-
-        ipcMain.on(`userlayout:${this.id}handleChange`, (e, newDistance) =>
+        this.GenerateHtml = function (rootPath)
         {
-            console.log(newDistance);
-            this.splitDistance = newDistance;
-        });
+            let isHorizontalSplit = this.splitType === SplitType.HORIZONTAL;
+            let mainDimension = isHorizontalSplit ? "height" : "width";
+            let subDimension = isHorizontalSplit ? "width" : "height";
+            let mainCalc = `calc(${this.splitDistance}% - (${Config.HandleWidth} / 2))`;
+            let subCalc = `calc(${100 - this.splitDistance}% - (${Config.HandleWidth} / 2))`;
 
-        return (`
-            <div id="${this.id}" class="window split ${this.splitType}">
-                <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
-                <div class="handle" draggable="true" ondragstart="${this.id}DragHandleStart(event)" ondrag="${this.id}DragHandle(event)" ondragend="${this.id}DragHandleStop(event)" style="${handleStyles}"></div>
-                <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
-            </div>
-            <script>
-                function ${this.id}DragHandleStart(e)
-                {
-                    split = document.querySelector("%23${this.id}");
-                    panelA = document.querySelector("%23${this.id}>.panel-A");
-                    panelB = document.querySelector("%23${this.id}>.panel-B");
-                    handle = document.querySelector("%23${this.id}>.handle");
-                    splitDistance = ${this.splitDistance};
-                }
+            let panelAStyles = `${mainDimension}: ${mainCalc}; ${subDimension}: 100%; float: left;`;
+            let panelBStyles = `${mainDimension}: ${subCalc};  ${subDimension}: 100%; float: left;`;
+            let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
 
-                function ${this.id}DragHandle(e)
-                {
-                    handleSize = "${Config.HandleWidth}";
-                    mainDimension = "${mainDimension}";
-                    subDimension = "${subDimension}";
-                    mousePos = mainDimension == "height" ? e.pageY : e.pageX;
-                    if (mousePos == 0) return;
-                    newDistance = (mousePos / ${isHorizontalSplit ? `split.clientHeight` : `split.clientWidth`}) * 100;
-                    splitDistance = newDistance;
-                    mainCalc = \`calc(\${newDistance}% - (\${handleSize} / 2))\`;
-                    subCalc = \`calc(\${100 - newDistance}% - (\${handleSize} / 2))\`;
-                    panelAStyles = \`\${ mainDimension }: \${ mainCalc }; \${ subDimension }: 100%; float: left; \`;
-                    panelBStyles = \`\${ mainDimension }: \${ subCalc }; \${ subDimension }: 100%; float: left; \`;
+            ipcMain.on(`userlayout:${this.id}handleChange`, (e, newDistance) =>
+            {
+                this.splitDistance = newDistance;
+            });
 
-                    panelA.setAttribute("style", \`\${panelAStyles}\`);
-                    panelB.setAttribute("style", \`\${panelBStyles}\`);
-                }
-
-                function ${this.id}DragHandleStop(e)
-                {
-                    console.log("Hello");
-                    ipcRenderer.send("userlayout:${this.id}handleChange", newDistance);
-                }
-            </script>
-        `);
+            return (`
+                <div id="${this.id}" class="window split ${this.splitType}">
+                    <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
+                    <div class="handle" draggable="true" ondragstart="${this.id}DragHandleStart(event)" ondrag="${this.id}DragHandle(event)" ondragend="${this.id}DragHandleStop(event)" style="${handleStyles}"></div>
+                    <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
+                </div>
+                <script>
+                    function ${this.id}DragHandleStart(e)
+                    {
+                        split = document.querySelector("%23${this.id}");
+                        panelA = document.querySelector("%23${this.id}>.panel-A");
+                        panelB = document.querySelector("%23${this.id}>.panel-B");
+                        handle = document.querySelector("%23${this.id}>.handle");
+                        splitDistance = ${this.splitDistance};
+                    }
+    
+                    function ${this.id}DragHandle(e)
+                    {
+                        handleSize = "${Config.HandleWidth}";
+                        mainDimension = "${mainDimension}";
+                        subDimension = "${subDimension}";
+                        mousePos = mainDimension == "height" ? e.pageY : e.pageX;
+                        if (mousePos == 0) return;
+                        newDistance = (mousePos / ${isHorizontalSplit ? `split.clientHeight` : `split.clientWidth`}) * 100;
+                        splitDistance = newDistance;
+                        mainCalc = \`calc(\${newDistance}% - (\${handleSize} / 2))\`;
+                        subCalc = \`calc(\${100 - newDistance}% - (\${handleSize} / 2))\`;
+                        panelAStyles = \`\${ mainDimension }: \${ mainCalc }; \${ subDimension }: 100%; float: left; \`;
+                        panelBStyles = \`\${ mainDimension }: \${ subCalc }; \${ subDimension }: 100%; float: left; \`;
+    
+                        panelA.setAttribute("style", \`\${panelAStyles}\`);
+                        panelB.setAttribute("style", \`\${panelBStyles}\`);
+                    }
+    
+                    function ${this.id}DragHandleStop(e)
+                    {
+                        console.log("Hello");
+                        ipcRenderer.send("userlayout:${this.id}handleChange", newDistance);
+                    }
+                </script>
+            `);
+        }
     }
+
 }
