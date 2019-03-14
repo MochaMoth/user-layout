@@ -12,18 +12,19 @@ module.exports = class Layout
         this.layout;
         this.styles;
     }
-    // working on recursive strategy 
-    setLayout(splitType, splitDistance, layoutA, layoutB)
+    // working on recursive strategy
+    setLayout(split, windowData)
     {
+        const { splitType, splitDistance, layoutA, layoutB } = split;
         // checks if only one arg then sets layout to that one arg. Not perfect still working on it. 
         const SplitLayout = require('./splitLayout');
         const Window = require('./window');
-        if (arguments.length == 1)
+        if (windowData)
         {
             this.layout = new Window(splitType)
         } else
         {
-            this.layout = new SplitLayout(splitType, splitDistance, new Window(layoutA), new Window(layoutB))
+            this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB);
         }
 
     }
@@ -68,6 +69,8 @@ module.exports = class Layout
                 <script>
                     const electron = require("electron");
                     const { ipcRenderer } = electron;
+
+                    ipcRenderer.send("userlayout:startdrag");
 
                     ipcRenderer.on("userlayout:startdrag", (e) =>
                     {

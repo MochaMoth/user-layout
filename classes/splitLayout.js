@@ -20,6 +20,8 @@ module.exports = class SplitLayout extends Layout
         this.layout = layoutA;
         this.layoutB = layoutB;
         this.splitDistance = splitDistance;
+
+        //
     }
 
     GenerateHtml(rootPath)
@@ -35,7 +37,7 @@ module.exports = class SplitLayout extends Layout
         let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
 
         return (`
-            <div class="window split ${this.splitType}">
+            <div id="sadfijoanvrweikhog" class="window split ${this.splitType}">
                 <div class="panel" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
                 <div class="handle" style="${handleStyles}"></div>
                 <div class="panel" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
