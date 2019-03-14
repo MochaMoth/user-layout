@@ -13,28 +13,27 @@ module.exports = class Window extends Layout
     {
         super();
         this.contents = contents;
+        this.GetAnchors = function ()
+        {
+            return (`
+                <div class="window hidden-content">
+                    <div class="anchor-top" ></div >
+                        <div class="anchor-bottom"></div>
+                        <div class="anchor-left"></div>
+                        <div class="anchor-right"></div>
+                        <div class="anchor-center"></div>
+                    </div >`);
+        }
+
+        this.GenerateHtml = function (rootPath)
+        {
+            let module = fs.readFileSync(path.join(rootPath, this.contents), { encoding: "utf-8" });
+
+            return (`
+                <div class="window visual-content">${module}</div>
+                ${this.GetAnchors()}
+            `);
+        }
     }
 
-    GetAnchors()
-    {
-        return (`
-            <div class="window hidden-content">
-                <div class="anchor-top" ></div >
-                    <div class="anchor-bottom"></div>
-                    <div class="anchor-left"></div>
-                    <div class="anchor-right"></div>
-                    <div class="anchor-center"></div>
-                </div >`);
-    }
-
-    GenerateHtml(rootPath)
-    {
-        console.log(this.styles);
-        let module = fs.readFileSync(path.join(rootPath, this.contents), { encoding: "utf-8" });
-
-        return (`
-            <div class="window visual-content">${module}</div>
-            ${this.GetAnchors()}
-        `);
-    }
 }

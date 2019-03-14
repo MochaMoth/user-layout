@@ -13,6 +13,8 @@
     "eslint": "^5.15.1"
   },
   "dependencies": {
-    "electron-root-path": "^1.0.9"
+    "bson": "^4.0.2",
+    "electron-root-path": "^1.0.9",
+    "serialijse": "^0.1.3"
   }
 }
