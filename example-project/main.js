@@ -1,5 +1,5 @@
 const electron = require("electron");
-const { app, BrowserWindow } = electron;
+const { app, BrowserWindow, ipcMain } = electron;
 const userlayout = require("user-layout");
 const { join } = require("path");
 const { readFileSync } = require("fs");

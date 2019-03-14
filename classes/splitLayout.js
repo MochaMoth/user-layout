@@ -1,3 +1,5 @@
+const electron = require("electron");
+const { ipcMain } = electron;
 const Layout = require('./layout');
 const Config = require("../Config.json");
 const Constants = require('../constants.js');
@@ -20,6 +22,7 @@ module.exports = class SplitLayout extends Layout
         this.layout = layoutA;
         this.layoutB = layoutB;
         this.splitDistance = splitDistance;
+        this.id = "id" + Math.round(Math.random() * 10000000);
     }
 
     GenerateHtml(rootPath)
@@ -34,24 +37,29 @@ module.exports = class SplitLayout extends Layout
         let panelBStyles = `${mainDimension}: ${subCalc};  ${subDimension}: 100%; float: left;`;
         let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
 
-        let id = "id" + Math.round(Math.random() * 10000000);
+        ipcMain.on(`userlayout:${this.id}handleChange`, (e, newDistance) =>
+        {
+            console.log(newDistance);
+            this.splitDistance = newDistance;
+        });
 
         return (`
-            <div id="${id}" class="window split ${this.splitType}">
+            <div id="${this.id}" class="window split ${this.splitType}">
                 <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
-                <div class="handle" draggable="true" ondragstart="${id}DragHandleStart(event)" ondrag="${id}DragHandle(event)" style="${handleStyles}"></div>
+                <div class="handle" draggable="true" ondragstart="${this.id}DragHandleStart(event)" ondrag="${this.id}DragHandle(event)" ondragend="${this.id}DragHandleStop(event)" style="${handleStyles}"></div>
                 <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
             </div>
             <script>
-                function ${id}DragHandleStart(e)
+                function ${this.id}DragHandleStart(e)
                 {
-                    split = document.querySelector("%23${id}");
-                    panelA = document.querySelector("%23${id}>.panel-A");
-                    panelB = document.querySelector("%23${id}>.panel-B");
-                    handle = document.querySelector("%23${id}>.handle");
+                    split = document.querySelector("%23${this.id}");
+                    panelA = document.querySelector("%23${this.id}>.panel-A");
+                    panelB = document.querySelector("%23${this.id}>.panel-B");
+                    handle = document.querySelector("%23${this.id}>.handle");
+                    splitDistance = ${this.splitDistance};
                 }
 
-                function ${id}DragHandle(e)
+                function ${this.id}DragHandle(e)
                 {
                     handleSize = "${Config.HandleWidth}";
                     mainDimension = "${mainDimension}";
@@ -59,6 +67,7 @@ module.exports = class SplitLayout extends Layout
                     mousePos = mainDimension == "height" ? e.pageY : e.pageX;
                     if (mousePos == 0) return;
                     newDistance = (mousePos / ${isHorizontalSplit ? `split.clientHeight` : `split.clientWidth`}) * 100;
+                    splitDistance = newDistance;
                     mainCalc = \`calc(\${newDistance}% - (\${handleSize} / 2))\`;
                     subCalc = \`calc(\${100 - newDistance}% - (\${handleSize} / 2))\`;
                     panelAStyles = \`\${ mainDimension }: \${ mainCalc }; \${ subDimension }: 100%; float: left; \`;
@@ -66,6 +75,12 @@ module.exports = class SplitLayout extends Layout
 
                     panelA.setAttribute("style", \`\${panelAStyles}\`);
                     panelB.setAttribute("style", \`\${panelBStyles}\`);
+                }
+
+                function ${this.id}DragHandleStop(e)
+                {
+                    console.log("Hello");
+                    ipcRenderer.send("userlayout:${this.id}handleChange", newDistance);
                 }
             </script>
         `);
