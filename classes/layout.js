@@ -8,6 +8,7 @@ module.exports = class Layout
      */
     constructor(layout)
     {
+        this.name = 'layout'
         this.layout = layout;
         this.styles;
         this.GenerateHtml = function (rootPath)
@@ -17,7 +18,7 @@ module.exports = class Layout
             //elements should have events bound automagically
             //
             return (`
-                <div class="user-layout" style="width:100%; height:100%;">
+                <div class="user-layout" style=${this.styles}>
                     ${this.layout.GenerateHtml(rootPath)}
                 </div>
                 <script>
