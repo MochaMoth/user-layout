@@ -1,9 +1,9 @@
-const electron = require("electron");
+import electron from "electron";
 const { app, BrowserWindow } = electron;
-const userlayout = require("user-layout");
-const path = require("path");
-const fs = require("fs");
-const { rootPath } = require("electron-root-path");
+import userlayout from "user-layout";
+import { join } from "path";
+import { readFileSync } from "fs";
+import { rootPath } from "electron-root-path";
 const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab } = userlayout;
 
 app.on("ready", () =>
@@ -23,9 +23,9 @@ app.on("ready", () =>
         )
     );
 
-    let preHtml = fs.readFileSync(path.join(rootPath, "Header.html"), { encoding: "utf-8" });
+    let preHtml = readFileSync(join(rootPath, "Header.html"), { encoding: "utf-8" });
     let layoutHtml = layout.GenerateHtml(rootPath);
-    let postHtml = fs.readFileSync(path.join(rootPath, "Footer.html"), { encoding: "utf-8" });
+    let postHtml = readFileSync(join(rootPath, "Footer.html"), { encoding: "utf-8" });
 
     mainWindow.loadURL(`data:text/html;charset=utf-8,${preHtml}${layoutHtml}${postHtml}`);
 });
