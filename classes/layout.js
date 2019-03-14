@@ -2,57 +2,24 @@ const { SplitType } = require('../constants')
 
 module.exports = class Layout
 {
-    /**
-     * Takes in a class that extends Layout in a tree structure
-     * @param {Layout} layout 
-     */
     constructor()
     {
-        this.name = 'layout'
-        this.layout;
-        this.styles;
-    }
-    // working on recursive strategy
-    setLayout(split, windowData)
-    {
-        const { splitType, splitDistance, layoutA, layoutB } = split;
-        // checks if only one arg then sets layout to that one arg. Not perfect still working on it. 
-        const SplitLayout = require('./splitLayout');
-        const Window = require('./window');
-        if (windowData)
-        {
-            this.layout = new Window(splitType)
-        } else
-        {
-            this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB);
-        }
-
+        this.state = {};
     }
 
-    LoadLayoutFromJson(layoutData)
+    Split()
     {
-        this.layout = JSON.parse(layoutData);
+        //
     }
 
-    updateStyles(styleData) 
+    GetHtml()
     {
-        const styles = styleData[this.name]
-        let stylesArr = [];
-        for (let style in styles)
-        {
-            if (styles.hasOwnProperty(style))
-            {
-                stylesArr.push(`${style}:${styles[style]};`);
-            }
-        };
-        let result = stylesArr.join(' ');
-        console.log(result);
-        this.styles = result;
+        //
     }
 
-    SaveLayoutToJson(layoutObject)
+    SetModule()
     {
-        return (JSON.stringify(layoutObject));
+        //
     }
 
     GenerateHtml(rootPath)
