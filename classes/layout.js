@@ -12,13 +12,13 @@ module.exports = class Layout
         this.layout;
         this.styles;
     }
-
+    // working on recursive strategy 
     setLayout(splitType, splitDistance, layoutA, layoutB)
     {
-        // checks if only one arg then sets layout to that one arg. Not perfect still working on it
+        // checks if only one arg then sets layout to that one arg. Not perfect still working on it. 
         const SplitLayout = require('./splitLayout');
         const Window = require('./window');
-        if (!splitDistance)
+        if (arguments.length == 1)
         {
             this.layout = new Window(splitType)
         } else
