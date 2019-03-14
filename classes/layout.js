@@ -60,31 +60,33 @@ module.exports = class Layout
         //elements should have events bound automagically
         //
         return (`
-            <div class="user-layout" style="${this.styles}">
-                ${this.layout.GenerateHtml(rootPath)}
-            </div>
-            <script>
-                const electron = require("electron");
-                const { ipcRenderer } = electron;
+            <body style="margin:0;">
+                <div class="user-layout" style="${this.styles}">
+                    ${this.layout.GenerateHtml(rootPath)}
+                </div>
+                <script>
+                    const electron = require("electron");
+                    const { ipcRenderer } = electron;
 
-                ipcRenderer.on("userlayout:startdrag", (e) =>
-                {
-                    const hiddenLayer = document.querySelectorAll(".window.hidden-content");
-                    hiddenLayout.forEach(element =>
+                    ipcRenderer.on("userlayout:startdrag", (e) =>
                     {
-                        element.classList.add("show");
+                        const hiddenLayer = document.querySelectorAll(".window.hidden-content");
+                        hiddenLayout.forEach(element =>
+                        {
+                            element.classList.add("show");
+                        });
                     });
-                });
 
-                ipcRenderer.on("userlayout:enddrag", (e) =>
-                {
-                    const hiddenLayer = document.querySelectorAll(".window.hidden-content");
-                    hiddenLayout.forEach(element =>
+                    ipcRenderer.on("userlayout:enddrag", (e) =>
                     {
-                        element.classList.remove("show");
+                        const hiddenLayer = document.querySelectorAll(".window.hidden-content");
+                        hiddenLayout.forEach(element =>
+                        {
+                            element.classList.remove("show");
+                        });
                     });
-                });
-            </script>
+                </script>
+            </body>
         `);
     }
 }
