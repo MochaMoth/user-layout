@@ -31,4 +31,27 @@ let ToDeserialize = function (data)
     return JSON.parse(data, reviver);
 }
 
-module.exports = { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, ToSerialize, ToDeserialize };
+let SaveLayout = function (layoutName, layout)
+{
+    console.log("Saving " + layoutName);
+    const userDataPath = (electron.app || electron.remote.app).getPath("userData");
+    const layoutPath = path.join(userDataPath, `${layoutName}.json`);
+    fs.writeFileSync(layoutPath, ToSerialize(layout));
+}
+
+let LoadLayout = function (layoutName, defaultLayout)
+{
+    const userDataPath = (electron.app || electron.remote.app).getPath("userData");
+    const layoutPath = path.join(userDataPath, `${layoutName}.json`);
+
+    try
+    {
+        return ToDeserialize(fs.readFileSync(layoutPath));
+    }
+    catch (error)
+    {
+        return defaultLayout;
+    }
+}
+
+module.exports = { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout };

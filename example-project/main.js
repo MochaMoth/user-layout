@@ -3,9 +3,8 @@ const { app, BrowserWindow, ipcMain } = electron;
 const { join } = require("path");
 const { readFileSync } = require("fs");
 const { rootPath } = require("electron-root-path");
-const UserPrefs = require("./UserPrefs");
 const userlayout = require("user-layout");
-const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, ToSerialize, ToDeserialize } = userlayout;
+const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout } = userlayout;
 
 defaultLayout = new Layout(
     new SplitLayout(SplitType.HORIZONTAL, 25,
@@ -19,11 +18,7 @@ defaultLayout = new Layout(
         new Window("Test File 3.html")
     )
 );
-
-const userPrefs = new UserPrefs("preferences", {
-    "layout": ToSerialize(defaultLayout)
-});
-let layout = ToDeserialize(userPrefs.get("layout"));
+let layout = LoadLayout("mainlayout", defaultLayout);
 
 app.on("ready", () =>
 {
@@ -34,10 +29,9 @@ app.on("ready", () =>
     let postHtml = readFileSync(join(rootPath, "Footer.html"), { encoding: "utf-8" });
 
     mainWindow.loadURL(`data:text/html;charset=utf-8,${preHtml}${layoutHtml}${postHtml}`);
-    userPrefs.set("layout", ToSerialize(layout));
 });
 
 app.on("before-quit", (e) =>
 {
-    userPrefs.set("layout", ToSerialize(layout));
+    SaveLayout("mainlayout", layout);
 });
