@@ -1,9 +1,9 @@
-import electron from "electron";
+const electron = require("electron");
 const { app, BrowserWindow } = electron;
-import userlayout from "user-layout";
-import { join } from "path";
-import { readFileSync } from "fs";
-import { rootPath } from "electron-root-path";
+const userlayout = require("user-layout");
+const { join } = require("path");
+const { readFileSync } = require("fs");
+const { rootPath } = require("electron-root-path");
 const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab } = userlayout;
 
 app.on("ready", () =>

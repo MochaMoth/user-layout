@@ -39,33 +39,33 @@ module.exports = class SplitLayout extends Layout
         return (`
             <div id="${id}" class="window split ${this.splitType}">
                 <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
-                <div class="handle" ondragstart="${id}DragHandleStart(event)" ondrag="${id}DragHandle(event)" style="${handleStyles}"></div>
+                <div class="handle" draggable="true" ondragstart="${id}DragHandleStart(event)" ondrag="${id}DragHandle(event)" style="${handleStyles}"></div>
                 <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
             </div>
             <script>
                 function ${id}DragHandleStart(e)
                 {
-                    ${id}split = document.querySelector("%23${id}");
-                    ${id}panelA = document.querySelector("%23${id}>.panel-A");
-                    ${id}panelB = document.querySelector("%23${id}>.panel-B");
-                    ${id}handle = document.querySelector("%23${id}>.handle");
+                    split = document.querySelector("%23${id}");
+                    panelA = document.querySelector("%23${id}>.panel-A");
+                    panelB = document.querySelector("%23${id}>.panel-B");
+                    handle = document.querySelector("%23${id}>.handle");
                 }
 
                 function ${id}DragHandle(e)
                 {
-                    ${id}handleSize = "${Config.HandleWidth}";
-                    ${id}mainDimension = "${mainDimension}";
-                    ${id}subDimension = "${subDimension}";
-                    ${id}mousePos = ${id}mainDimension == "height" ? e.pageY : e.pageX;
-                    if (${id}mousePos == 0) return;
-                    ${id}newDistance = (${id}mousePos / ${isHorizontalSplit ? `${id}split.clientHeight` : `${id}split.clientWidth`}) * 100;
-                    ${id}mainCalc = \`calc(\${${id}newDistance}% - (\${${id}handleSize} / 2))\`;
-                    ${id}subCalc = \`calc(\${100 - ${id}newDistance}% - (\${${id}handleSize} / 2))\`;
-                    ${id}panelAStyles = \`\${ ${id}mainDimension }: \${ ${id}mainCalc }; \${ ${id}subDimension }: 100%; float: left; \`;
-                    ${id}panelBStyles = \`\${ ${id}mainDimension }: \${ ${id}subCalc }; \${ ${id}subDimension }: 100%; float: left; \`;
+                    handleSize = "${Config.HandleWidth}";
+                    mainDimension = "${mainDimension}";
+                    subDimension = "${subDimension}";
+                    mousePos = mainDimension == "height" ? e.pageY : e.pageX;
+                    if (mousePos == 0) return;
+                    newDistance = (mousePos / ${isHorizontalSplit ? `split.clientHeight` : `split.clientWidth`}) * 100;
+                    mainCalc = \`calc(\${newDistance}% - (\${handleSize} / 2))\`;
+                    subCalc = \`calc(\${100 - newDistance}% - (\${handleSize} / 2))\`;
+                    panelAStyles = \`\${ mainDimension }: \${ mainCalc }; \${ subDimension }: 100%; float: left; \`;
+                    panelBStyles = \`\${ mainDimension }: \${ subCalc }; \${ subDimension }: 100%; float: left; \`;
 
-                    ${id}panelA.setAttribute("style", \`\${${id}panelAStyles}\`);
-                    ${id}panelB.setAttribute("style", \`\${${id}panelBStyles}\`);
+                    panelA.setAttribute("style", \`\${panelAStyles}\`);
+                    panelB.setAttribute("style", \`\${panelBStyles}\`);
                 }
             </script>
         `);
