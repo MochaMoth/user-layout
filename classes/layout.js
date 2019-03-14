@@ -1,3 +1,4 @@
+const { SplitType } = require('../constants')
 
 module.exports = class Layout
 {
@@ -12,9 +13,18 @@ module.exports = class Layout
         this.styles;
     }
 
-    setLayout(splitType, splitDistance, layoutA, layoutB){
-        const SplitLayout = require('./splitLayout');
-        this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB)
+    setLayout(splitType, splitDistance, layoutA, layoutB)
+    {
+        // checks if only one arg then sets layout to that one arg. Not perfect still working
+        if (!splitDistance)
+        {
+            this.layout = splitType
+        } else
+        {
+            const SplitLayout = require('./splitLayout');
+            this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB)
+        }
+
     }
 
     LoadLayoutFromJson(layoutData)
@@ -24,10 +34,12 @@ module.exports = class Layout
 
     updateStyles(styleData) 
     {
-        const styles = styleData[this.name] 
+        const styles = styleData[this.name]
         let stylesArr = [];
-        for (let style in styles) {
-            if (styles.hasOwnProperty(style)) {
+        for (let style in styles)
+        {
+            if (styles.hasOwnProperty(style))
+            {
                 stylesArr.push(`${style}:${styles[style]};`);
             }
         };
