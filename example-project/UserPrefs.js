@@ -3,25 +3,6 @@ const serializer = require("serialijse");
 const path = require("path");
 const fs = require("fs");
 const userlayout = require("user-layout");
-const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab } = userlayout;
-const { ipcMain } = electron;
-const Config = require("../Config.json");
-const BSON = require("bson");
-
-let replacer = (key, value) =>
-{
-    if (typeof value === 'function')
-        return value.toString();
-    return value;
-}
-
-let reviver = (key, value) =>
-{
-    if (typeof value === 'string'
-        && value.indexOf('function ') === 0)
-        return eval(`(${value})`);
-    return value;
-}
 
 module.exports = class UserPrefs
 {
@@ -46,7 +27,7 @@ module.exports = class UserPrefs
     set(key, value)
     {
         this.data[key] = value;
-        fs.writeFileSync(this.path, JSON.stringify(this.data, replacer, 2));
+        fs.writeFileSync(this.path, JSON.stringify(this.data));
     }
 }
 
@@ -54,7 +35,7 @@ function parseDataFile(filePath, defaults)
 {
     try
     {
-        return JSON.parse(fs.readFileSync(filePath), reviver);
+        return JSON.parse(fs.readFileSync(filePath));
     }
     catch (error)
     {

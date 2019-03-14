@@ -1,4 +1,4 @@
-const Serializer = require("serialijse");
+const electron = require("electron");
 
 class Layout
 {
