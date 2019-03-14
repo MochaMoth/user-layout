@@ -1,6 +1,6 @@
 const electron = require("electron");
 
-class Layout
+module.exports = class Layout
 {
     /**
      * Takes in a class that extends Layout in a tree structure
@@ -9,6 +9,7 @@ class Layout
     constructor(layout)
     {
         this.layout = layout;
+        this.styles;
         this.GenerateHtml = function (rootPath)
         {
             //Magic here!
@@ -25,7 +26,19 @@ class Layout
                 </script>
             `);
         }
+        this.UpdateStyles = function (styleData)
+        {
+            const styles = styleData[this.name];
+            let stylesArr = [];
+            for (let style in styles)
+            {
+                if (styles.hasOwnProperty(style))
+                {
+                    stylesArr.push(`${style}:${styles[style]};`);
+                }
+            };
+            let result = stylesArr.join('; ');
+            this.styles = result;
+        }
     }
 }
-
-module.exports = Layout

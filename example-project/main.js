@@ -5,6 +5,7 @@ const { readFileSync } = require("fs");
 const { rootPath } = require("electron-root-path");
 const userlayout = require("user-layout");
 const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout } = userlayout;
+const styles = require('./styles.json');
 
 defaultLayout = new Layout(
     new SplitLayout(SplitType.HORIZONTAL, 25,
@@ -22,6 +23,7 @@ let layout = LoadLayout("mainlayout", defaultLayout);
 
 app.on("ready", () =>
 {
+    layout.UpdateStyles(styles);
     let mainWindow = new BrowserWindow({ width: 800, height: 600 });
 
     let preHtml = readFileSync(join(rootPath, "Header.html"), { encoding: "utf-8" });
