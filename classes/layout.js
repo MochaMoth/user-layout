@@ -1,14 +1,20 @@
+
 module.exports = class Layout
 {
     /**
      * Takes in a class that extends Layout in a tree structure
      * @param {Layout} layout 
      */
-    constructor(layout)
+    constructor()
     {
         this.name = 'layout'
-        this.layout = layout;
+        this.layout;
         this.styles;
+    }
+
+    setLayout(splitType, splitDistance, layoutA, layoutB){
+        const SplitLayout = require('./splitLayout');
+        this.layout = new SplitLayout(splitType, splitDistance, layoutA, layoutB)
     }
 
     LoadLayoutFromJson(layoutData)
