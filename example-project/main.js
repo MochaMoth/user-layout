@@ -3,8 +3,7 @@ const { app, BrowserWindow, ipcMain } = electron;
 const { join } = require("path");
 const { readFileSync } = require("fs");
 const { rootPath } = require("electron-root-path");
-const userlayout = require("user-layout");
-const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout } = userlayout;
+const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout } = require("user-layout");
 const styles = require('./styles.json');
 
 defaultLayout = new Layout(
