@@ -18,7 +18,8 @@ defaultLayout = new Layout(
         new Window("Test File 3.html")
     )
 );
-let layout = LoadLayout("mainlayout", defaultLayout);
+//let layout = LoadLayout("mainlayout", defaultLayout);
+let layout = defaultLayout;
 
 app.on("ready", () =>
 {
