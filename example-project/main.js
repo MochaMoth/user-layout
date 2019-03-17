@@ -3,22 +3,22 @@ const { app, BrowserWindow, ipcMain } = electron;
 const { join } = require("path");
 const { readFileSync } = require("fs");
 const { rootPath } = require("electron-root-path");
-const { Layout, SplitLayout, Window, TabbedWindow, SplitType, Tab, SaveLayout, LoadLayout } = require("user-layout");
+const userLayout = require("user-layout");
 const styles = require('./styles.json');
 
-defaultLayout = new Layout(
-    new SplitLayout(SplitType.HORIZONTAL, 25,
-        new SplitLayout(SplitType.VERTICAL, 25,
-            new Window("Test File 1.html"),
-            new TabbedWindow([
-                new Tab("File 2", "Test File 2.html", "visible"),
-                new Tab("File 4", "Test File 4.html")
+defaultLayout = new userLayout.Layout(
+    new userLayout.SplitLayout(userLayout.SplitType.HORIZONTAL, 25,
+        new userLayout.SplitLayout(userLayout.SplitType.VERTICAL, 25,
+            new userLayout.Window("Test File 1.html"),
+            new userLayout.TabbedWindow([
+                new userLayout.Tab("File 2", "Test File 2.html", "visible"),
+                new userLayout.Tab("File 4", "Test File 4.html")
             ]),
         ),
-        new Window("Test File 3.html")
+        new userLayout.Window("Test File 3.html")
     )
 );
-//let layout = LoadLayout("mainlayout", defaultLayout);
+//let layout = userLayout.LoadLayout("mainlayout", defaultLayout);
 let layout = defaultLayout;
 
 app.on("ready", () =>
@@ -35,5 +35,5 @@ app.on("ready", () =>
 
 app.on("before-quit", (e) =>
 {
-    SaveLayout("mainlayout", layout);
+    userLayout.SaveLayout("mainlayout", layout);
 });
