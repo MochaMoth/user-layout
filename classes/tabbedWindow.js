@@ -1,3 +1,4 @@
+"use strict";
 const Window = require('./window');
 const Tab = require("./tab");
 const path = require("path");

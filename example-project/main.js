@@ -1,3 +1,4 @@
+"use strict";
 const electron = require("electron");
 const { app, BrowserWindow, ipcMain } = electron;
 const { join } = require("path");
@@ -6,7 +7,7 @@ const { rootPath } = require("electron-root-path");
 const userLayout = require("user-layout");
 const styles = require('./styles.json');
 
-defaultLayout = new userLayout.Layout(
+let defaultLayout = new userLayout.Layout(
     new userLayout.SplitLayout(userLayout.SplitType.HORIZONTAL, 25,
         new userLayout.SplitLayout(userLayout.SplitType.VERTICAL, 25,
             new userLayout.Window("Test File 1.html"),

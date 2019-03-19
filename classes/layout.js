@@ -1,3 +1,4 @@
+"use strict";
 const electron = require("electron");
 
 module.exports = class Layout

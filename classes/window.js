@@ -1,3 +1,4 @@
+"use strict";
 const Layout = require('./layout');
 const path = require("path");
 const fs = require("fs");
