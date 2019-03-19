@@ -26,7 +26,7 @@ module.exports = class Window extends Layout
                 </div >`);
         }
 
-        this.GenerateHtml = function (rootPath)
+        this.GenerateHtml = function (rootPath, layoutId)
         {
             let module = fs.readFileSync(path.join(rootPath, this.contents), { encoding: "utf-8" });
 

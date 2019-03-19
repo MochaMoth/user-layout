@@ -10,9 +10,12 @@ module.exports = class Tab
      * @param {String} file 
      * @param {String} visible 
      */
-    constructor(name, file, visible = "")
+    constructor(file, name = "", visible = "")
     {
-        this.name = name;
+        if (name === "")
+            this.name = file.split(".")[0];
+        else
+            this.name = name;
         this.file = file;
         this.visible = visible;
     }

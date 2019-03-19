@@ -11,6 +11,8 @@ module.exports = class Layout
     {
         this.layout = layout;
         this.styles;
+        this.id = "id" + Math.round(Math.random() * 10000000);
+        this.dragObject;
         this.GenerateHtml = function (rootPath)
         {
             //Magic here!
@@ -19,11 +21,14 @@ module.exports = class Layout
             //
             return (`
                 <div class="user-layout" style="width:100%; height:100%;">
-                    ${this.layout.GenerateHtml(rootPath)}
+                    ${this.layout.GenerateHtml(rootPath, this.id)}
                 </div>
                 <script>
-                    const electron = require("electron");
-                    const { ipcRenderer } = electron;
+                    function ${this.id}onDragStart(e)
+                    {
+                        this.dragObject = e.target;
+                        console.log(this.dragObject);
+                    }
                 </script>
             `);
         }

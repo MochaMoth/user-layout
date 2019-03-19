@@ -15,15 +15,17 @@ module.exports = class TabbedWindow extends Window
         super();
         this.tabs = tabs;
         this.id = "id" + Math.round(Math.random() * 10000000);
-        this.GenerateHtml = function (rootPath)
+        this.GenerateHtml = function (rootPath, layoutId)
         {
             let tabs = "";
             let modules = "";
+            let hasChecked = false;
 
             this.tabs.forEach((element, index) =>
             {
+                if (element.visible === "visible") hasChecked = true;
                 let module = fs.readFileSync(path.join(rootPath, element.file), { encoding: "utf-8" });
-                tabs += `<div class="tab ${element.visible}" index="${index}">${element.name}</div>`;
+                tabs += `<div class="tab ${element.visible}" index="${index}" draggable="true" ondragstart="${layoutId}onDragStart(event)">${element.name}</div>`;
                 modules += `<div class="window visual-content ${element.visible}">${module}</div>`;
             });
 
@@ -33,6 +35,12 @@ module.exports = class TabbedWindow extends Window
                     <div class="tab-modules">${modules}</div>
                     ${this.GetAnchors()}
                     <script>
+                        if (!${hasChecked})
+                        {
+                            document.querySelector("%23${this.id}>.tab-navigation>.tab").classList.add("visible");
+                            document.querySelector("%23${this.id}>.tab-modules>.window").classList.add("visible");
+                        }
+
                         function ${this.id}tabClick(event)
                         {
                             index = event.target.getAttribute("index");

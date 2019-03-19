@@ -24,7 +24,7 @@ module.exports = class SplitLayout extends Layout
         this.layoutB = layoutB;
         this.splitDistance = splitDistance;
         this.id = "id" + Math.round(Math.random() * 10000000);
-        this.GenerateHtml = function (rootPath)
+        this.GenerateHtml = function (rootPath, layoutId)
         {
             let isHorizontalSplit = this.splitType === SplitType.HORIZONTAL;
             let mainDimension = isHorizontalSplit ? "height" : "width";
@@ -43,9 +43,9 @@ module.exports = class SplitLayout extends Layout
 
             return (`
                 <div id="${this.id}" class="window split ${this.splitType}">
-                    <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath)}</div>
+                    <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath, layoutId)}</div>
                     <div class="handle" draggable="true" ondragstart="${this.id}DragHandleStart(event)" ondrag="${this.id}DragHandle(event)" ondragend="${this.id}DragHandleStop(event)" style="${handleStyles}"></div>
-                    <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath)}</div>
+                    <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath, layoutId)}</div>
                 </div>
                 <script>
                     function ${this.id}DragHandleStart(e)
