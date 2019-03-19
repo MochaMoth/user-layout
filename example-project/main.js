@@ -13,7 +13,7 @@ let defaultLayout = new userLayout.Layout(
             new userLayout.TabbedWindow(["Test File 1.html"]),
             new userLayout.TabbedWindow(["Test File 2.html", "Test File 4.html"]),
         ),
-        new userLayout.TabbedWindow([new userLayout.Tab("Test File 3.html")])
+        new userLayout.TabbedWindow(["Test File 3.html"])
     )
 );
 //let layout = userLayout.LoadLayout("mainlayout", defaultLayout);
