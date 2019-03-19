@@ -14,7 +14,7 @@ module.exports = class Tab
     constructor(file, name = "", visible = "")
     {
         if (name === "")
-            this.name = file.split(".")[0];
+            this.name = file.split(".")[0].replace(/_/g, " ");
         else
             this.name = name;
         this.file = file;
