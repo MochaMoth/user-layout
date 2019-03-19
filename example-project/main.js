@@ -10,10 +10,10 @@ const styles = require('./styles.json');
 let defaultLayout = new userLayout.Layout(
     new userLayout.SplitLayout(userLayout.SplitType.HORIZONTAL, 25,
         new userLayout.SplitLayout(userLayout.SplitType.VERTICAL, 25,
-            new userLayout.TabbedWindow(["Test File 1.html"]),
-            new userLayout.TabbedWindow(["Test File 2.html", "Test File 4.html"]),
+            new userLayout.TabbedWindow(["Test_File_1.html"]),
+            new userLayout.TabbedWindow(["Test_File_2.html", "Test_File_4.html"]),
         ),
-        new userLayout.TabbedWindow(["Test File 3.html"])
+        new userLayout.TabbedWindow(["Test_File_3.html"])
     )
 );
 //let layout = userLayout.LoadLayout("mainlayout", defaultLayout);
