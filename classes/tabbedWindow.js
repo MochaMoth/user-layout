@@ -8,6 +8,8 @@ module.exports = class TabbedWindow extends Window
 {
     /**
      * Creates a Window with tabs at the top for cycling the contents.
+     * If you pass an array of strings, the tabs will be generated
+     * automatically.
      * @param {Array<Tab>} tabs 
      */
     constructor(tabs)
@@ -23,10 +25,16 @@ module.exports = class TabbedWindow extends Window
 
             this.tabs.forEach((element, index) =>
             {
-                if (element.visible === "visible") hasChecked = true;
-                let module = fs.readFileSync(path.join(rootPath, element.file), { encoding: "utf-8" });
-                tabs += `<div class="tab ${element.visible}" index="${index}" draggable="true" ondragstart="${layoutId}onDragStart(event)">${element.name}</div>`;
-                modules += `<div class="window visual-content ${element.visible}">${module}</div>`;
+                let tabElement;
+                if (typeof (element) === typeof (""))
+                    tabElement = new Tab(element);
+                else
+                    tabElement = element;
+                console.log(tabElement);
+                if (tabElement.visible === "visible") hasChecked = true;
+                let module = fs.readFileSync(path.join(rootPath, tabElement.file), { encoding: "utf-8" });
+                tabs += `<div class="tab ${tabElement.visible}" index="${index}" draggable="true" ondragstart="${layoutId}onDragStart(event)">${tabElement.name}</div>`;
+                modules += `<div class="window visual-content ${tabElement.visible}">${module}</div>`;
             });
 
             return (`
