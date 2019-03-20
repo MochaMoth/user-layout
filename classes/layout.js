@@ -23,6 +23,8 @@ module.exports = class Layout
                     ${this.layout.GenerateHtml(rootPath, this.id)}
                 </div>
                 <script>
+                    const electron = require("electron");
+                    const { ipcRenderer } = electron;
                     let dragObject;
 
                     function ${this.id}onDragStart(e)

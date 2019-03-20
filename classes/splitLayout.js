@@ -34,7 +34,7 @@ module.exports = class SplitLayout extends Layout
 
             let panelAStyles = `${mainDimension}: ${mainCalc}; ${subDimension}: 100%; float: left;`;
             let panelBStyles = `${mainDimension}: ${subCalc};  ${subDimension}: 100%; float: left;`;
-            let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left;`;
+            let handleStyles = `${mainDimension}: ${Config.HandleWidth}; ${subDimension}: 100%; float: left; cursor: ${isHorizontalSplit ? "row" : "col"}-resize`;
 
             ipcMain.on(`userlayout:${this.id}handleChange`, (e, newDistance) =>
             {
@@ -44,7 +44,12 @@ module.exports = class SplitLayout extends Layout
             return (`
                 <div id="${this.id}" class="window split ${this.splitType}">
                     <div class="panel panel-A" style="${panelAStyles}">${this.layout.GenerateHtml(rootPath, layoutId)}</div>
-                    <div class="handle" draggable="true" ondragstart="${this.id}DragHandleStart(event)" ondrag="${this.id}DragHandle(event)" ondragend="${this.id}DragHandleStop(event)" style="${handleStyles}"></div>
+                    <div class="handle"
+                         draggable="true"
+                         ondragstart="${this.id}DragHandleStart(event)"
+                         ondrag="${this.id}DragHandle(event)"
+                         ondragend="${this.id}DragHandleStop(event)"
+                         style="${handleStyles}"></div>
                     <div class="panel panel-B" style="${panelBStyles}">${this.layoutB.GenerateHtml(rootPath, layoutId)}</div>
                 </div>
                 <script>

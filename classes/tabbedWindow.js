@@ -1,4 +1,6 @@
 "use strict";
+const electron = require("electron");
+const { ipcMain } = electron;
 const Window = require('./window');
 const Tab = require("./tab");
 const path = require("path");
@@ -36,16 +38,26 @@ module.exports = class TabbedWindow extends Window
                 tabs += `<div class="tab ${tabElement.visible}"
                               index="${index}"
                               draggable="true"
-                              ondragstart="${layoutId}onDragStart(event)">${tabElement.name}</div>`;
+                              ondragstart="${this.id}onDragStart(event)">${tabElement.name}</div>`;
                 modules += `<div class="window visual-content ${tabElement.visible}">${module}</div>`;
+            });
+
+            ipcMain.on(`userlayout:${this.id}removeTab`, (event, tabIndex) =>
+            {
+                this.tabs.splice(tabIndex, 1);
+            });
+
+            ipcMain.on(`userlayout:${this.id}addTab`, (event, newTab) =>
+            {
+                //
             });
 
             return (`
                 <div id="${this.id}">
                     <div class="tab-navigation"
                          onclick="${this.id}tabClick(event)"
-                         ondrop="${layoutId}onDrop(event)"
-                         ondragover="${layoutId}allowDragover(event)">${tabs}</div>
+                         ondrop="${this.id}onDrop(event)"
+                         ondragover="${this.id}allowDragover(event)">${tabs}</div>
                     <div class="tab-modules">${modules}</div>
                     ${this.GetAnchors()}
                     <script>
@@ -53,6 +65,23 @@ module.exports = class TabbedWindow extends Window
                         {
                             document.querySelector("%23${this.id}>.tab-navigation>.tab").classList.add("visible");
                             document.querySelector("%23${this.id}>.tab-modules>.window").classList.add("visible");
+                        }
+
+                        function ${this.id}onDrop(event)
+                        {
+                            ipcRenderer.send("userlayout:${this.id}addTab", event.target);
+                            ${layoutId}onDrop(event);
+                        }
+
+                        function ${this.id}onDragStart(event)
+                        {
+                            ipcRenderer.send("userlayout:${this.id}removeTab", event.target.getAttribute("index"))
+                            ${layoutId}onDragStart(event);
+                        }
+
+                        function ${this.id}allowDragover(event)
+                        {
+                            ${layoutId}allowDragover(event);
                         }
 
                         function ${this.id}tabClick(event)
