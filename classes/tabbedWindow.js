@@ -33,13 +33,19 @@ module.exports = class TabbedWindow extends Window
                 console.log(tabElement);
                 if (tabElement.visible === "visible") hasChecked = true;
                 let module = fs.readFileSync(path.join(rootPath, tabElement.file), { encoding: "utf-8" });
-                tabs += `<div class="tab ${tabElement.visible}" index="${index}" draggable="true" ondragstart="${layoutId}onDragStart(event)">${tabElement.name}</div>`;
+                tabs += `<div class="tab ${tabElement.visible}"
+                              index="${index}"
+                              draggable="true"
+                              ondragstart="${layoutId}onDragStart(event)">${tabElement.name}</div>`;
                 modules += `<div class="window visual-content ${tabElement.visible}">${module}</div>`;
             });
 
             return (`
                 <div id="${this.id}">
-                    <div class="tab-navigation" onclick="${this.id}tabClick(event)">${tabs}</div>
+                    <div class="tab-navigation"
+                         onclick="${this.id}tabClick(event)"
+                         ondrop="${layoutId}onDrop(event)"
+                         ondragover="${layoutId}allowDragover(event)">${tabs}</div>
                     <div class="tab-modules">${modules}</div>
                     ${this.GetAnchors()}
                     <script>

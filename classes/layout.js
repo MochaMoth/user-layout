@@ -12,7 +12,6 @@ module.exports = class Layout
         this.layout = layout;
         this.styles;
         this.id = "id" + Math.round(Math.random() * 10000000);
-        this.dragObject;
         this.GenerateHtml = function (rootPath)
         {
             //Magic here!
@@ -24,10 +23,32 @@ module.exports = class Layout
                     ${this.layout.GenerateHtml(rootPath, this.id)}
                 </div>
                 <script>
+                    let dragObject;
+
                     function ${this.id}onDragStart(e)
                     {
-                        this.dragObject = e.target;
-                        console.log(this.dragObject);
+                        dragObject = e.target;
+                        dragObjectWindow = e.path[2].querySelectorAll(".tab-modules>.window")[dragObject.getAttribute("index")];
+                    }
+
+                    function ${this.id}onDrop(e)
+                    {
+                        console.log(e);
+                        index = dragObject.getAttribute("index");
+                        pathIndex = 1;
+                        if (e.target.classList.contains("tab"))
+                        {
+                            e.target.parentElement.appendChild(dragObject);
+                            pathIndex++;
+                        }
+                        else
+                            e.target.appendChild(dragObject);
+                        e.path[pathIndex].querySelector(".tab-modules").appendChild(dragObjectWindow);
+                    }
+
+                    function ${this.id}allowDragover(e)
+                    {
+                        e.preventDefault();
                     }
                 </script>
             `);
