@@ -31,6 +31,9 @@ module.exports = class Layout
                     {
                         dragObject = e.target;
                         dragObjectWindow = e.path[2].querySelectorAll(".tab-modules>.window")[dragObject.getAttribute("index")];
+                        document.querySelectorAll(".window.hidden-content").forEach(element => {
+                            element.classList.add("visible");
+                        });
                     }
 
                     function ${this.id}onDrop(e)
@@ -46,6 +49,9 @@ module.exports = class Layout
                         else
                             e.target.appendChild(dragObject);
                         e.path[pathIndex].querySelector(".tab-modules").appendChild(dragObjectWindow);
+                        document.querySelectorAll(".window.hidden-content").forEach(element => {
+                            element.classList.remove("visible");
+                        });
                     }
 
                     function ${this.id}allowDragover(e)

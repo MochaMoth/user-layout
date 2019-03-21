@@ -2,6 +2,7 @@
 const electron = require("electron");
 const { ipcMain } = electron;
 const Window = require('./window');
+const Config = require("../Config.json");
 const Tab = require("./tab");
 const path = require("path");
 const fs = require("fs");
@@ -18,7 +19,6 @@ module.exports = class TabbedWindow extends Window
     {
         super();
         this.tabs = tabs;
-        this.id = "id" + Math.round(Math.random() * 10000000);
         this.GenerateHtml = function (rootPath, layoutId)
         {
             let tabs = "";
@@ -44,27 +44,32 @@ module.exports = class TabbedWindow extends Window
 
             ipcMain.on(`userlayout:${this.id}removeTab`, (event, tabIndex) =>
             {
+                console.log(this.tabs);
                 this.tabs.splice(tabIndex, 1);
+                console.log(this.tabs);
             });
 
             ipcMain.on(`userlayout:${this.id}addTab`, (event, newTab) =>
             {
-                //
+                //this.tabs.splice(this.tabs.length - 1, 0, [new Tab(newTab)]);
             });
 
             return (`
-                <div id="${this.id}">
+                <div id="${this.id}" style="height: 100%;">
                     <div class="tab-navigation"
+                         style="height: ${Config.TabNavigationHeight}"
                          onclick="${this.id}tabClick(event)"
                          ondrop="${this.id}onDrop(event)"
                          ondragover="${this.id}allowDragover(event)">${tabs}</div>
-                    <div class="tab-modules">${modules}</div>
-                    ${this.GetAnchors()}
+                    <div class="tabbed-content" style="height: calc(100% - ${Config.TabNavigationHeight})">
+                        <div class="tab-modules" style="height: 100%; width: 100%;">${modules}</div>
+                        ${this.GetAnchors(layoutId)}
+                    </div>
                     <script>
                         if (!${hasChecked})
                         {
                             document.querySelector("%23${this.id}>.tab-navigation>.tab").classList.add("visible");
-                            document.querySelector("%23${this.id}>.tab-modules>.window").classList.add("visible");
+                            document.querySelector("%23${this.id}>.tabbed-content>.tab-modules>.window").classList.add("visible");
                         }
 
                         function ${this.id}onDrop(event)
