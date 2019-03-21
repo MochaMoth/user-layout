@@ -75,24 +75,39 @@ module.exports = class TabbedWindow extends Window
                         function ${this.id}onDrop(event)
                         {
                             ipcRenderer.send("userlayout:${this.id}addTab", event.target);
-                            //${this.id}resetTabs();
-                            ${layoutId}onDrop(event);
+                            ${this.id}resetTabs();
+                            dragData = ${layoutId}getDragTarget();
+                            index = dragData.dragTarget.getAttribute("index");
+                            pathIndex = 1;
+                            if (event.target.classList.contains("tab"))
+                            {
+                                event.target.parentElement.appendChild(dragData.dragTarget);
+                                pathIndex++;
+                            }
+                            else
+                                event.target.appendChild(dragData.dragTarget);
+                            event.path[pathIndex].querySelector(".tab-modules").appendChild(dragData.dragTargetWindow);
+                            document.querySelectorAll(".window.hidden-content").forEach(element => {
+                                element.classList.remove("visible");
+                            });
                         }
 
                         function ${this.id}onDragStart(event)
                         {
                             ipcRenderer.send("userlayout:${this.id}removeTab", event.target.getAttribute("index"))
-                            ${layoutId}onDragStart(event);
+                            ${layoutId}setDragTarget(event.target, event.path[2].querySelectorAll(".tab-modules>.window")[event.target.getAttribute("index")]);
+                            document.querySelectorAll(".window.hidden-content").forEach(element => {
+                                element.classList.add("visible");
+                            });
                         }
 
                         function ${this.id}allowDragover(event)
                         {
-                            ${layoutId}allowDragover(event);
+                            event.preventDefault();
                         }
 
                         function ${this.id}tabClick(event)
                         {
-                            console.log(event);
                             index = event.target.getAttribute("index");
                             ${this.id}resetTabs();
 

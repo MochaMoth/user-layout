@@ -26,36 +26,17 @@ module.exports = class Layout
                     const electron = require("electron");
                     const { ipcRenderer } = electron;
                     let dragObject;
+                    let dragObjectWindow;
 
-                    function ${this.id}onDragStart(e)
+                    function ${this.id}setDragTarget(dragTarget, dragTargetWindow)
                     {
-                        dragObject = e.target;
-                        dragObjectWindow = e.path[2].querySelectorAll(".tab-modules>.window")[dragObject.getAttribute("index")];
-                        document.querySelectorAll(".window.hidden-content").forEach(element => {
-                            element.classList.add("visible");
-                        });
+                        dragObject = dragTarget;
+                        dragObjectWindow = dragTargetWindow
                     }
 
-                    function ${this.id}onDrop(e)
+                    function ${this.id}getDragTarget()
                     {
-                        index = dragObject.getAttribute("index");
-                        pathIndex = 1;
-                        if (e.target.classList.contains("tab"))
-                        {
-                            e.target.parentElement.appendChild(dragObject);
-                            pathIndex++;
-                        }
-                        else
-                            e.target.appendChild(dragObject);
-                        e.path[pathIndex].querySelector(".tab-modules").appendChild(dragObjectWindow);
-                        document.querySelectorAll(".window.hidden-content").forEach(element => {
-                            element.classList.remove("visible");
-                        });
-                    }
-
-                    function ${this.id}allowDragover(e)
-                    {
-                        e.preventDefault();
+                        return { dragTarget: dragObject, dragTargetWindow: dragObjectWindow };
                     }
                 </script>
             `);

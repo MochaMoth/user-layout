@@ -14,7 +14,6 @@ module.exports = class Window extends Layout
     {
         super();
         this.contents = contents;
-        //this.id = "id" + Math.round(Math.random() * 10000000);
         this.GetAnchors = function (layoutId)
         {
             return (`
@@ -29,7 +28,7 @@ module.exports = class Window extends Layout
                     function ${this.id}allowDragoverWindow(event)
                     {
                         event.target.classList.add("hover");
-                        ${layoutId}allowDragover(event);
+                        event.preventDefault();
                     }
 
                     function ${this.id}onDragLeaveWindow(event)
@@ -39,6 +38,8 @@ module.exports = class Window extends Layout
 
                     function ${this.id}onDropWindow(event)
                     {
+                        console.log(event);
+                        dragData = ${layoutId}getDragTarget();
                         event.target.classList.remove("hover");
                         document.querySelectorAll(".window.hidden-content").forEach(element => {
                             element.classList.remove("visible");
