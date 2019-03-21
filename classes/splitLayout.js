@@ -23,7 +23,7 @@ module.exports = class SplitLayout extends Layout
         this.layout = layoutA;
         this.layoutB = layoutB;
         this.splitDistance = splitDistance;
-        this.id = "id" + Math.round(Math.random() * 10000000);
+        //this.id = "id" + Math.round(Math.random() * 10000000);
         this.GenerateHtml = function (rootPath, layoutId)
         {
             let isHorizontalSplit = this.splitType === SplitType.HORIZONTAL;

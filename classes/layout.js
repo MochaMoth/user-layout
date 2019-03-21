@@ -38,7 +38,6 @@ module.exports = class Layout
 
                     function ${this.id}onDrop(e)
                     {
-                        console.log(e);
                         index = dragObject.getAttribute("index");
                         pathIndex = 1;
                         if (e.target.classList.contains("tab"))

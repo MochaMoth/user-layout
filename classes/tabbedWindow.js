@@ -75,6 +75,7 @@ module.exports = class TabbedWindow extends Window
                         function ${this.id}onDrop(event)
                         {
                             ipcRenderer.send("userlayout:${this.id}addTab", event.target);
+                            //${this.id}resetTabs();
                             ${layoutId}onDrop(event);
                         }
 
@@ -91,17 +92,18 @@ module.exports = class TabbedWindow extends Window
 
                         function ${this.id}tabClick(event)
                         {
+                            console.log(event);
                             index = event.target.getAttribute("index");
                             ${this.id}resetTabs();
 
                             document.querySelectorAll("%23${this.id}>.tab-navigation>.tab")[index].classList.add("visible");
-                            document.querySelectorAll("%23${this.id}>.tab-modules>.window")[index].classList.add("visible");
+                            document.querySelectorAll("%23${this.id}>.tabbed-content>.tab-modules>.window")[index].classList.add("visible");
                         }
 
                         function ${this.id}resetTabs()
                         {
                             tabs = document.querySelectorAll("%23${this.id}>.tab-navigation>.tab");
-                            windows = document.querySelectorAll("%23${this.id}>.tab-modules>.window");
+                            windows = document.querySelectorAll("%23${this.id}>.tabbed-content>.tab-modules>.window");
 
                             tabs.forEach((element, index) => {
                                 element.classList.remove("visible");
