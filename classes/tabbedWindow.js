@@ -38,20 +38,21 @@ module.exports = class TabbedWindow extends Window
                 tabs += `<div class="tab ${tabElement.visible}"
                               index="${index}"
                               draggable="true"
-                              ondragstart="${this.id}onDragStart(event)">${tabElement.name}</div>`;
+                              ondragstart="${this.id}onDragStart(event)"
+                              filename="${tabElement.file}"
+                              titlename="${tabElement.name}">${tabElement.name}</div>`;
                 modules += `<div class="window visual-content ${tabElement.visible}">${module}</div>`;
             });
 
             ipcMain.on(`userlayout:${this.id}removeTab`, (event, tabIndex) =>
             {
-                console.log(this.tabs);
                 this.tabs.splice(tabIndex, 1);
-                console.log(this.tabs);
             });
 
             ipcMain.on(`userlayout:${this.id}addTab`, (event, newTab) =>
             {
-                //this.tabs.splice(this.tabs.length - 1, 0, [new Tab(newTab)]);
+                console.log(newTab);
+                this.tabs.splice(this.tabs.length - 1, 0, [new Tab(newTab.filename, newTab.titlename)]);
             });
 
             return (`
@@ -74,9 +75,11 @@ module.exports = class TabbedWindow extends Window
 
                         function ${this.id}onDrop(event)
                         {
-                            ipcRenderer.send("userlayout:${this.id}addTab", event.target);
-                            ${this.id}resetTabs();
                             dragData = ${layoutId}getDragTarget();
+                            tabInfo = {tabname: dragData.dragTarget.getAttribute("titlename"), tabfile: dragData.dragTarget.getAttribute("filename")};
+                            ipcRenderer.send("userlayout:${this.id}addTab", tabInfo);
+                            console.log(dragData);
+                            ${this.id}resetTabs();
                             index = dragData.dragTarget.getAttribute("index");
                             pathIndex = 1;
                             if (event.target.classList.contains("tab"))
@@ -90,6 +93,7 @@ module.exports = class TabbedWindow extends Window
                             document.querySelectorAll(".window.hidden-content").forEach(element => {
                                 element.classList.remove("visible");
                             });
+                            ${layoutId}setDragTarget(null, null);
                         }
 
                         function ${this.id}onDragStart(event)

@@ -27,6 +27,9 @@ module.exports = class Window extends Layout
                 <script>
                     function ${this.id}allowDragoverWindow(event)
                     {
+                        dragData = ${layoutId}getDragTarget();
+                        if (dragData.dragTarget == null)
+                            return;
                         event.target.classList.add("hover");
                         event.preventDefault();
                     }
@@ -38,8 +41,10 @@ module.exports = class Window extends Layout
 
                     function ${this.id}onDropWindow(event)
                     {
-                        console.log(event);
                         dragData = ${layoutId}getDragTarget();
+                        if (dragData.dragTarget == null)
+                            return;
+                        ${layoutId}setDragTarget(null, null);
                         event.target.classList.remove("hover");
                         document.querySelectorAll(".window.hidden-content").forEach(element => {
                             element.classList.remove("visible");

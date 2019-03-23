@@ -81,7 +81,6 @@ module.exports = class SplitLayout extends Layout
     
                     function ${this.id}DragHandleStop(e)
                     {
-                        console.log("Hello");
                         ipcRenderer.send("userlayout:${this.id}handleChange", newDistance);
                     }
                 </script>
