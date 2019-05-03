@@ -1,3 +1,4 @@
+"use strict";
 const Layout = require('./layout');
 const SplitLayout = require('./splitLayout');
 const Window = require('./window');
