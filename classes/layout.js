@@ -1,3 +1,4 @@
+"use strict";
 const electron = require("electron");
 
 module.exports = class Layout
@@ -10,6 +11,7 @@ module.exports = class Layout
     {
         this.layout = layout;
         this.styles;
+        this.id = "id" + Math.round(Math.random() * 10000000);
         this.GenerateHtml = function (rootPath)
         {
             //Magic here!
@@ -18,11 +20,24 @@ module.exports = class Layout
             //
             return (`
                 <div class="user-layout" style="width:100%; height:100%;">
-                    ${this.layout.GenerateHtml(rootPath)}
+                    ${this.layout.GenerateHtml(rootPath, this.id)}
                 </div>
                 <script>
                     const electron = require("electron");
                     const { ipcRenderer } = electron;
+                    let dragObject;
+                    let dragObjectWindow;
+
+                    function ${this.id}setDragTarget(dragTarget, dragTargetWindow)
+                    {
+                        dragObject = dragTarget;
+                        dragObjectWindow = dragTargetWindow
+                    }
+
+                    function ${this.id}getDragTarget()
+                    {
+                        return { dragTarget: dragObject, dragTargetWindow: dragObjectWindow };
+                    }
                 </script>
             `);
         }

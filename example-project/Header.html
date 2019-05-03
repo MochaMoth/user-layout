@@ -12,6 +12,10 @@
             padding: 0;
         }
 
+        .hover {
+            background-color: #00000055;
+        }
+
         .handle {
             background-color: #000000FF;
         }
@@ -19,6 +23,27 @@
         .window {
             width: 100%;
             height: 100%;
+        }
+
+        .window.hidden-content.visible .anchor:hover {
+            background-color: rgba(0, 0, 0, 10);
+        }
+
+        .tab {
+            display: inline-block;
+        }
+
+        .tab.visible {
+            /* display: block; */
+            background-color: rgb(197, 197, 197);
+        }
+
+        .tab-modules .window {
+            display: none;
+        }
+
+        .tab-modules .window.visible {
+            display: block;
         }
     </style>
 </head>

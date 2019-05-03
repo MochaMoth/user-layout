@@ -1,3 +1,4 @@
+"use strict";
 const electron = require("electron");
 const { ipcMain } = electron;
 const path = require("path");

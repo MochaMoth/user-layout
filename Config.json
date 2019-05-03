@@ -1,3 +1,4 @@
 {
-    "HandleWidth": "25px"
+    "HandleWidth": "4px",
+    "TabNavigationHeight": "18px"
 }
